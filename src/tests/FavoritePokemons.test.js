@@ -6,7 +6,7 @@ import App from '../App';
 import FavoritePokemons from '../components/FavoritePokemons';
 
 describe('Testa o componente `<FavoritePokemons />`', () => {
-  it('Testa se é exibido No favorite pokemon found, se não houver pokémons favoritos',
+  it('1.Testa se é exibido No favorite pokemon found, se não houver pokémons favoritos',
     () => {
       render(<FavoritePokemons />);
       const noFavoritePokemon = screen.getByText(/No favorite pokemon found/i);
@@ -14,7 +14,7 @@ describe('Testa o componente `<FavoritePokemons />`', () => {
       const img = screen.queryAllByRole('img');
       expect(img).toHaveLength(0);
     });
-  it('Testa se é exibido todos os cards de pokémons favoritados.', () => {
+  it('2.Testa se é exibido todos os cards de pokémons favoritados.', () => {
     renderWithRouter(<App />);
     const moreDetails = screen.getByText(/More details/i);
     userEvent.click(moreDetails);
