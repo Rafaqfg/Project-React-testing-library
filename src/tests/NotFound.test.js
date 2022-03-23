@@ -4,7 +4,7 @@ import { NotFound } from '../components';
 
 const IMG = 'https://media.giphy.com/media/kNSeTs31XBZ3G/giphy.gif';
 
-describe('Teste o componente `<NotFound.js />`', () => {
+describe('Teste o componente `<NotFound.js />` ', () => {
   it('1.Teste se página contém um heading h2 com o texto Page requested not found 😭',
     () => {
       render(<NotFound />);
