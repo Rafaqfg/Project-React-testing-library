@@ -1,55 +1,33 @@
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import App from '../App';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import About from '../components/About';
 
-// describe(
-//   'Testa se o componente <App.js /> exibe corretamente a barra de navegação com os links',
-//   () => {
-//     test('testa se o topo da aplicação contém um conjunto fixo de links de navegação',
-//       () => {
-//         render(<App />);
-//         const navBar = screen.getAllByRole()
-//       });
-//     it('testa se o primeiro link possui o texto `Home`', () => {
-//       render(<App />);
-//       const homeLink = screen.getByText(/Home/i);
-//       expect(homeLink).toBeInTheDocument();
-//     });
-//     it('testa se o segundo link possui o texto `About`', () => {
-//       render(<App />);
-//       const aboutLink = screen.getByText(/About/i);
-//       expect(aboutLink).toBeInTheDocument();
-//     });
-//     it('testa se o terceiro link possui o texto `Favorite Pokémons`', () => {
-//       render(<App />);
-//       const favoritePokemonsLink = screen.getByText(/Favorite Pokémons/i);
-//       expect(favoritePokemonsLink).toBeInTheDocument();
-//     });
-//   },
-// );
-// describe('Testa se os links do componente `<App.js />` funcionam corretamente', () => {
-//   it(
-//     'testa se a aplicação é redirecionada para a página inicial ao clicar no link `Home`',
-//     () => {
+const IMG = 'https://cdn2.bulbagarden.net/upload/thumb/8/86/Gen_I_Pok%C3%A9dex.png/800px-Gen_I_Pok%C3%A9dex.png';
 
-//     },
-//   );
-//   it(
-//     'testa se a aplicação é redirecionada para a página About ao clicar no link `About`',
-//     () => {
-
-//     },
-//   );
-//   it(
-//     'testa se a aplicação é redirecionada para a pág Pokémons Favoritados em favorites',
-//     () => {
-
-//     },
-//   );
-//   it(
-//     'testa se a aplicação é redirecionada à pág Not Found ao entrar em url desconhecida',
-//     () => {
-
-//     },
-//   );
-// });
+describe('Testa o componente `<About />`', () => {
+  test('Teste se a página contém as informações sobre a Pokédex.', () => {
+    render(<About />);
+    const pokedexInfo = screen.getByText(/This application simulates/i);
+    expect(pokedexInfo).toBeInTheDocument();
+    const pokedexInfo2 = screen.getByText(/One can filter/i);
+    expect(pokedexInfo2).toBeInTheDocument();
+  });
+  it('Teste se a página contém um heading h2 com o texto About Pokédex', () => {
+    render(<About />);
+    const aboutPokedexText = screen
+      .getByRole('heading', { level: 2, name: 'About Pokédex' });
+    expect(aboutPokedexText).toBeInTheDocument();
+  });
+  it('Teste se a página contém dois parágrafos com texto sobre a Pokédex.', () => {
+    render(<About />);
+    const paragraphOne = screen.getByText(/This application simulates/i);
+    expect(paragraphOne).toBeInTheDocument();
+    const paragraphTwo = screen.getByText(/One can filter/i);
+    expect(paragraphTwo).toBeInTheDocument();
+  });
+  it('Teste se a página contém a seguinte imagem de uma Pokédex', () => {
+    render(<About />);
+    const imgTest = screen.getByAltText(/Pokédex/i);
+    expect(imgTest.src).toContain(IMG);
+  }); // https://stackoverflow.com/questions/60509527/jestreact-native-testing-library-how-to-test-an-image-src
+});
