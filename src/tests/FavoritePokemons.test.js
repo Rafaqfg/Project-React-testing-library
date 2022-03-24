@@ -1,9 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '../services/helpers';
+import { createMemoryHistory } from 'history';
+// import { renderWithRouter } from '../services/helpers';
 import App from '../App';
 import FavoritePokemons from '../components/FavoritePokemons';
+
+const renderWithRouter = (component) => {
+  const history = createMemoryHistory();
+  return ({
+    ...render(<Router history={ history }>{component}</Router>),
+  });
+};
 
 describe('Testa o componente `<FavoritePokemons />`', () => {
   it('1.Testa se é exibido No favorite pokemon found, se não houver pokémons favoritos',
