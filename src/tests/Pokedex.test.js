@@ -54,7 +54,7 @@ describe('3 - Testa a funcionalidade dos botões de filtro', () => {
     const typesBttn = screen.getAllByTestId('pokemon-type-button');
     expect(typesBttn).toHaveLength(TYPES);
     typesBttn.forEach((type) => {
-      expect(type).toBeDefined();
+      expect(type).toBeInTheDocument();
     });
   });
   it('3.2 Testa se a Pokédex contém um botão para resetar os filtros',
