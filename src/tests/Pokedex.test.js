@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter, everyCheck } from '../services/helpers';
+import { renderWithRouter } from '../services/helpers';
 import App from '../App';
 import pokemons from '../data';
 import { Pokedex } from '../components';
+
+const POKEMON_NAME = 'pokemon-name';
 
 describe('1 - Testa o componente `<Pokedex.js />`', () => {
   it('1.1 Testa se página contém um heading h2 com o texto Encountered pokémons', () => {
@@ -15,7 +17,7 @@ describe('1 - Testa o componente `<Pokedex.js />`', () => {
   });
   it('1.2 Testa se é mostrado apenas um Pokémon por vez', () => {
     renderWithRouter(<App />);
-    const displayPokemon = screen.getAllByTestId('pokemon-name');
+    const displayPokemon = screen.getAllByTestId(POKEMON_NAME);
     expect(displayPokemon).toHaveLength(1);
   });
 });
@@ -33,37 +35,41 @@ describe('2 - Testa a funcionalidade do botão `Próximo pokémon`', () => {
         isPokemonFavoriteById={ {} }
       />);
       const nextPokemonBtn = screen.getByTestId('next-pokemon');
-      expect(everyCheck(nextPokemonBtn, pokemons)).toBeTruthy();
-    });
-  it('2.3 O 1o Pokémon deve ser mostrado ao clicar no botão,se estiver no último Pokémon',
-    () => {
-      fail()
-    });
-  it('2.4 Testa se é exibido o próximo Pokémon ao clicar no botão `Próximo pokémon`',
-    () => {
-      fail()
+      pokemons.forEach((pokemon) => {
+        const currentPokemon = screen.getByTestId(POKEMON_NAME);
+        expect(currentPokemon).toHaveTextContent(pokemon.name);
+        userEvent.click(nextPokemonBtn);
+      });
+      const currentPokemon = screen.getByTestId(POKEMON_NAME);
+      expect(currentPokemon).toHaveTextContent('Pikachu');
     });
 });
 
-// describe('3 - Testa a funcionalidade dos botões de filtro', () => {
-//   it('3.1 Testa se a Pokédex tem os botões de filtro', () => {
-//     fail()
-//   });
-//   it('3.2 Deve existir um botão de filtragem para cada tipo de Pokémon, sem repetição',
-//     () => {
-//       fail()
-//     });
-//   it('3.3 A partir da seleção de 1 tipo, deve circular somente pelos pokémons deste tipo',
-//     () => {
-//       fail()
-//     });
-//   it('3.4 O texto do botão deve corresponder ao nome do tipo, `ex. Psychic`', () => {
-//     fail()
-//   });
-//   it('3.5 O botão `All` precisa estar sempre visível', () => {
-//     fail()
-//   });
-// });
+describe('3 - Testa a funcionalidade dos botões de filtro', () => {
+  it('3.1 Testa se a Pokédex tem os botões de filtro', () => {
+    renderWithRouter(<Pokedex
+      pokemons={ pokemons }
+      isPokemonFavoriteById={ {} }
+    />);
+    // pokemons.forEach((pokemon) => {
+
+    // });
+  });
+  //   it('3.2 Deve existir um botão de filtragem para cada tipo de Pokémon, sem repetição',
+  //     () => {
+  //       fail()
+  //     });
+  //   it('3.3 A partir da seleção de 1 tipo, deve circular somente pelos pokémons deste tipo',
+  //     () => {
+  //       fail()
+  //     });
+  //   it('3.4 O texto do botão deve corresponder ao nome do tipo, `ex. Psychic`', () => {
+  //     fail()
+  //   });
+  //   it('3.5 O botão `All` precisa estar sempre visível', () => {
+  //     fail()
+  //   });
+  // });
 
 // describe('4 - Testa a funcionalidade do botão de resetar os filtros', () => {
 //   it('4.1 Testa se a Pokédex contém um botão para resetar os filtros', () => {
@@ -79,4 +85,4 @@ describe('2 - Testa a funcionalidade do botão `Próximo pokémon`', () => {
 //   it('4.4 Ao carregar a página, o filtro selecionado deverá ser `All`', () => {
 //     fail()
 //   });
-// });
+});
