@@ -7,6 +7,7 @@ import pokemons from '../data';
 import { Pokedex } from '../components';
 
 const POKEMON_NAME = 'pokemon-name';
+const TYPES = 7;
 
 describe('1 - Testa o componente `<Pokedex.js />`', () => {
   it('1.1 Testa se página contém um heading h2 com o texto Encountered pokémons', () => {
@@ -25,8 +26,8 @@ describe('1 - Testa o componente `<Pokedex.js />`', () => {
 describe('2 - Testa a funcionalidade do botão `Próximo pokémon`', () => {
   it('2.1 O botão deve conter o texto `Próximo pokémon`', () => {
     renderWithRouter(<App />);
-    const nextPokemonBtn = screen.getByRole('button', { name: /próximo pokémon/i });
-    expect(nextPokemonBtn).toBeDefined();
+    const nextPokemonBttn = screen.getByRole('button', { name: /próximo pokémon/i });
+    expect(nextPokemonBttn).toBeDefined();
   });
   it('2.2 Os próximos Pokémons da lista devem ser mostrados, um a um, ao clicar no botão',
     () => {
@@ -34,11 +35,11 @@ describe('2 - Testa a funcionalidade do botão `Próximo pokémon`', () => {
         pokemons={ pokemons }
         isPokemonFavoriteById={ {} }
       />);
-      const nextPokemonBtn = screen.getByTestId('next-pokemon');
+      const nextPokemonBttn = screen.getByTestId('next-pokemon');
       pokemons.forEach((pokemon) => {
         const currentPokemon = screen.getByTestId(POKEMON_NAME);
         expect(currentPokemon).toHaveTextContent(pokemon.name);
-        userEvent.click(nextPokemonBtn);
+        userEvent.click(nextPokemonBttn);
       });
       const currentPokemon = screen.getByTestId(POKEMON_NAME);
       expect(currentPokemon).toHaveTextContent('Pikachu');
@@ -47,22 +48,32 @@ describe('2 - Testa a funcionalidade do botão `Próximo pokémon`', () => {
 
 describe('3 - Testa a funcionalidade dos botões de filtro', () => {
   it('3.1 Testa se a Pokédex tem os botões de filtro', () => {
-    renderWithRouter(<Pokedex
-      pokemons={ pokemons }
-      isPokemonFavoriteById={ {} }
-    />);
-    // pokemons.forEach((pokemon) => {
-
-    // });
+    renderWithRouter(<App />);
+    const allBttn = screen.getByRole('button', { name: /all/i });
+    expect(allBttn).toBeDefined();
+    const typesBttn = screen.getAllByTestId('pokemon-type-button');
+    expect(typesBttn).toHaveLength(TYPES);
+    typesBttn.forEach((type) => {
+      expect(type).toBeDefined();
+    });
   });
-  //   it('3.2 Deve existir um botão de filtragem para cada tipo de Pokémon, sem repetição',
-  //     () => {
-  //       fail()
-  //     });
-  //   it('3.3 A partir da seleção de 1 tipo, deve circular somente pelos pokémons deste tipo',
-  //     () => {
-  //       fail()
-  //     });
+  it('3.2 Testa se a Pokédex contém um botão para resetar os filtros',
+    () => {
+      renderWithRouter(<App />);
+      const allBttn = screen.getByRole('button', { name: /all/i });
+      userEvent.click(allBttn);
+      const currentPokemon = screen.getByTestId(POKEMON_NAME);
+      expect(currentPokemon).toHaveTextContent('Pikachu');
+    });
+  it('3.3 A partir da seleção de 1 tipo, deve circular somente pelos pokémons deste tipo',
+    () => {
+      renderWithRouter(<App />);
+      const typesBttn = screen.getAllByTestId('pokemon-type-button');
+      const targetType = typesBttn[3];
+      userEvent.click(targetType);
+      const selectedType = screen.getByTestId('pokemon-type');
+      expect(targetType.innerHTML).toEqual(selectedType.textContent);
+    });
   //   it('3.4 O texto do botão deve corresponder ao nome do tipo, `ex. Psychic`', () => {
   //     fail()
   //   });
